@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel del Negocio</title>
+    <link rel="stylesheet" href="panel.css">
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-messaging-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    
+
+    
+<body>
+    <header>
+        <h2>Bienvenido <span id="negocioNombre">a tu panel</span></h2>
+        <button id="logoutBtn">Cerrar sesión</button>
+        <section id="gananciasHoy" style="background: #d4edda; padding: 20px; border-radius: 10px; margin: 10px;">
+            <h3>💸 Ventas del Día</h3>
+            <p>Total Ganado: <span id="totalGanado">$0.00</span> en esta jornada</p>
+
+        </section>
+    </header>
+    
+    
+
+    <main>
+        <!-- Pedido entrante -->
+        <section id="pedidoEntrante" style="display: none; background: #f8d7da; padding: 20px; border-radius: 10px;">
+            <h3>🛎️ Nuevo Pedido Entrante</h3>
+            <div id="pedidoEntranteContainer"></div>
+        </section>
+
+        <!-- Buscando repartidor -->
+        <section id="buscandoRepartidor" style="display: none; background: #fff3cd; padding: 20px; border-radius: 10px;">
+            <h3>🚴 Buscando repartidor...</h3>
+            <div id="countup-timer" style="margin-top: 10px; font-weight: bold;">Tiempo transcurrido: 0:00</div>
+
+
+            <div id="buscandoRepartidorContainer"></div>
+        </section>
+
+        <!-- Preparación -->
+        <section id="preparando">
+            <h3>🍳 En Preparación</h3>
+            <div id="preparandoContainer"></div>
+        </section>
+
+        <!-- Completados -->
+        <section id="completados">
+            <h3>✅ Pedidos Completados</h3>
+            <div id="completadosContainer"></div>
+        </section>
+    </main>
+    <audio id="preparandoSonido" src="/tono-de-messenger-2.mp3" preload="auto"></audio>
+    <audio id="audioentrante" src="/alarmaa.mp3" preload="auto"></audio>
+
+
+    <!-- Scripts -->
+    <script type="module" src="panel.js"></script>
+
+        <!-- Scripts -->
+        <script type="module" src="panel.js"></script>
+
+        <!-- Registro del Service Worker -->
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/firebase-messaging-sw.js')
+                    .then((registration) => {
+                        console.log('✅ Service Worker registrado con éxito:', registration);
+                    }).catch((error) => {
+                        console.error('❌ Error al registrar el Service Worker:', error);
+                    });
+            }
+        </script>
+    </body>
+    </html>
+    
+
+
+</body>
+
+</html>
+
+
+

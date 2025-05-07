@@ -1,0 +1,153 @@
+/* Reset básico */
+body, h1, h2, p, div, button {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background-color: #f7f7f7;
+  color: #333;
+  padding: 20px;
+}
+
+/* Encabezado */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #242424;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+#negocioNombre {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+#logoutBtn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#logoutBtn:hover {
+  background-color: #c82333;
+}
+
+/* Tarjeta de pedido */
+.pedido {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: transform 0.2s ease;
+}
+
+.pedido:hover {
+  transform: scale(1.01);
+}
+
+.pedido p {
+  margin-bottom: 10px;
+}
+
+.pedido strong {
+  color: #444;
+}
+
+/* Productos */
+.pedido p:nth-child(5) {
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Total */
+.pedido p:nth-child(7) {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #28a745;
+}
+
+/* Botones dentro de pedido */
+.pedido button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #ffc107;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.pedido button:hover {
+  background-color: #e0a800;
+}
+
+/* Contenedores por estado */
+#pedidoEntrante,
+#buscandoRepartidor,
+#preparandoContainer,
+#completadosContainer {
+  margin-bottom: 30px;
+}
+
+/* Títulos por estado */
+#pedidoEntrante h2,
+#buscandoRepartidor h2,
+#preparandoContainer h2,
+#completadosContainer h2 {
+  margin-bottom: 15px;
+}
+
+.pedido-preparando {
+  background-color: #35d8943f; /* Un amarillo suave */
+  border-left: 5px solid #37f037;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+
+
+
+
+#gananciasHoy {
+  background: #d4edda;
+  color: #155724;
+  padding: 15px 25px;
+  border-left: 6px solid #28a745;
+  border-radius: 12px;
+  margin-top: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+#gananciasHoy h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#gananciasHoy p {
+  margin: 8px 0 0;
+  font-size: 1.1rem;
+}
+
+#totalGanado {
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: #0c5132;
+}
