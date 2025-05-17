@@ -1,76 +1,153 @@
-/* styles.css */
+/* Reset básico y estilos generales */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #3f3d56, #2b5876);
-    color: #fff;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  color: #fff;
+  line-height: 1.6;
+}
+
+/* Contenedor principal implícito (el body ya está flex) */
+h2 {
+  font-size: 2.5rem; /* Título muy grande */
+  margin-bottom: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Inputs grandes y legibles */
+input {
+  width: 100%;
+  max-width: 400px;
+  padding: 18px 20px;
+  margin-bottom: 1.8rem;
+  border: none;
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(5px);
+  color: white;
+  font-size: 1.3rem; /* Texto grande */
+  font-weight: 500;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.2rem;
+}
+
+input:focus {
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.35);
+  transform: scale(1.02);
+}
+
+/* Botón gigante y llamativo */
+button {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  border: none;
+  border-radius: 15px;
+  background-color: #fff;
+  color: #6e8efb;
+  font-size: 1.4rem; /* Texto muy grande */
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  margin-bottom: 2rem;
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+/* Mensaje de error SUPER visible */
+#mensaje {
+  font-size: 1.3rem; /* Texto grande */
+  padding: 1.2rem 1.5rem;
+  margin: 1rem 0;
+  border-radius: 12px;
+  background-color: rgba(255, 59, 48, 0.25);
+  color: #ffebee;
+  font-weight: 600;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  border: 2px solid #ff3b30;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#mensaje:not(:empty) {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Efecto "vibrar" para errores */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+#mensaje.error {
+  animation: shake 0.5s ease;
+}
+
+/* Responsive para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  h2 {
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
   }
   
-  .login-container {
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
+  input, button {
+      padding: 16px;
+      font-size: 1.2rem;
   }
   
-  .login-container h1 {
-    margin-bottom: 30px;
-    font-size: 28px;
-    color: #f1c40f;
+  input::placeholder {
+      font-size: 1.1rem;
   }
   
-  .input-group {
-    margin-bottom: 20px;
-    text-align: left;
+  #mensaje {
+      font-size: 1.2rem;
+      padding: 1rem;
   }
-  
-  .input-group label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: bold;
-  }
-  
-  .input-group input {
-    width: 100%;
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: none;
-    font-size: 16px;
-    outline: none;
-    background-color: #eee;
-    color: #333;
-  }
-  
-  .login-btn {
-    margin-top: 10px;
-    padding: 12px 20px;
-    width: 100%;
-    border: none;
-    border-radius: 8px;
-    background-color: #f1c40f;
-    color: #333;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .login-btn:hover {
-    background-color: #e0b60d;
-  }
-  
-  .error-message {
-    color: #e74c3c;
-    margin-top: 10px;
-    font-size: 14px;
-    display: none;
-  }
+}
+
+/* Efecto de vidrio moderno */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
   
