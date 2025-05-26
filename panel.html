@@ -21,32 +21,39 @@
         </section>
     </header>
 
-    <main>
-        <!-- Pedido entrante -->
-        <section id="pedidoEntrante" style="display: none; background: #f8d7da; padding: 20px; border-radius: 10px;">
-            <h3>🛎️ Nuevo Pedido Entrante</h3>
-            <div id="pedidoEntranteContainer"></div>
-        </section>
+ <main>
+    <!-- Pedido entrante -->
+    <section id="pedidoEntrante" style="display: none; background: #f8d7da; padding: 20px; border-radius: 10px;">
+        <h3>🛎️ Nuevo Pedido Entrante</h3>
+        <div id="pedidoEntranteContainer"></div>
+    </section>
 
-        <!-- Buscando repartidor -->
-        <section id="buscandoRepartidor" style="display: none; background: #fff3cd; padding: 20px; border-radius: 10px;">
-            <h3>🚴 Buscando repartidor...</h3>
-            <div id="countup-timer" style="margin-top: 10px; font-weight: bold;">Tiempo transcurrido: 0:00</div>
-            <div id="buscandoRepartidorContainer"></div>
-        </section>
+    <!-- Buscando repartidor -->
+    <section id="buscandoRepartidor" style="display: none; background: #fff3cd; padding: 20px; border-radius: 10px;">
+        <h3>🚴 Buscando repartidor...</h3>
+        <div id="countup-timer" style="margin-top: 10px; font-weight: bold;">Tiempo transcurrido: 0:00</div>
+        <div id="buscandoRepartidorContainer"></div>
+    </section>
 
-        <!-- Preparación -->
-        <section id="preparando">
-            <h3>🍳 En Preparación</h3>
-            <div id="preparandoContainer"></div>
-        </section>
+    <!-- Asignado -->
+    <section id="pedidoAsignado" style="display: none; background: #d1ecf1; padding: 20px; border-radius: 10px;">
+        <h3>📦 Pedido Asignado</h3>
+        <div id="pedidoAsignadoContainer"></div>
+    </section>
 
-        <!-- Completados -->
-        <section id="completados">
-            <h3>✅ Pedidos Completados</h3>
-            <div id="completadosContainer"></div>
-        </section>
-    </main>
+    <!-- Preparación -->
+    <section id="preparando">
+        <h3>🍳 En Preparación</h3>
+        <div id="preparandoContainer"></div>
+    </section>
+
+    <!-- Completados -->
+    <section id="completados">
+        <h3>✅ Pedidos Completados</h3>
+        <div id="completadosContainer"></div>
+    </section>
+</main>
+
 
     <!-- Audios con rutas relativas -->
     <audio id="preparandoSonido" src="tono-de-messenger-2.mp3" preload="auto"></audio>

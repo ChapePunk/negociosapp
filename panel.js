@@ -117,66 +117,144 @@ onSnapshot(pedidosRef, snapshot => {
             <p><strong>Estado:</strong> ${pedido.estado}</p>
             <p><strong>Total a cobrar:</strong> $${pedido.total?.baseTotal?.toFixed(2) ?? "N/D"}</p>
         `;
+const asignadoTimers = {}; // Almacena los timers activos por pedidoId
 
-        switch (pedido.estado) {
-            case "pendiente":
-                document.getElementById("pedidoEntrante").style.display = "block";
-                const aceptarBtn = document.createElement("button");
-                const beeper = document.getElementById("audioentrante");
-                if (beeper) beeper.play().catch(() => {});
-                aceptarBtn.textContent = "Aceptar Pedido";
-                aceptarBtn.addEventListener("click", async () => {
-                    if (beeper) {
-                        beeper.pause();
-                        beeper.currentTime = 0;
-                    }
-                    await updateDoc(pedidoRef, { estado: "buscandorepa" });
-                });
-                div.appendChild(aceptarBtn);
-                document.getElementById("pedidoEntranteContainer").appendChild(div);
-                break;
+      switch (pedido.estado) {
+    case "pendiente": {
+        document.getElementById("pedidoEntrante").style.display = "block";
+        const aceptarBtn = document.createElement("button");
+        const beeper = document.getElementById("audioentrante");
+        if (beeper) beeper.play().catch(() => {});
+        aceptarBtn.textContent = "Aceptar Pedido";
+        aceptarBtn.addEventListener("click", async () => {
+            if (beeper) {
+                beeper.pause();
+                beeper.currentTime = 0;
+            }
+            await updateDoc(pedidoRef, { estado: "buscandorepa" });
+        });
+        div.appendChild(aceptarBtn);
+        document.getElementById("pedidoEntranteContainer").appendChild(div);
+        break;
+    }
 
-            case "buscandorepa":
-                document.getElementById("buscandoRepartidor").style.display = "block";
-                document.getElementById("buscandoRepartidorContainer").appendChild(div);
-                break;
+    case "buscandorepa": {
+        document.getElementById("buscandoRepartidor").style.display = "block";
+        document.getElementById("buscandoRepartidorContainer").appendChild(div);
+        break;
+    }
 
-            case "preparando":
-                div.setAttribute("data-id", pedidoId);
-                const beep = document.getElementById("preparandoSonido");
-                if (beep) beep.play().catch(() => {});
-                const terminarBtn = document.createElement("button");
-                terminarBtn.textContent = "Marcar como Terminado";
-                terminarBtn.addEventListener("click", async () => {
-                    await updateDoc(pedidoRef, { estado: "terminado" });
-                });
-                div.appendChild(terminarBtn);
-                document.getElementById("preparandoContainer").appendChild(div);
-                break;
+case "asignado": {
+    document.getElementById("pedidoAsignado").style.display = "block";
+    const nombreRepartidor = pedido.repartidorAsignado || "Repartidor desconocido";
+    
+    const div = document.createElement("div");
+    const pedidoDivId = `pedidoAsignado-${pedidoId}`;
+    div.id = pedidoDivId;
 
-            case "terminado":
-                const cobrarBtn = document.createElement("button");
-                cobrarBtn.textContent = "Cobrar";
-                cobrarBtn.addEventListener("click", async () => {
-                    try {
-                        const hoy = obtenerFechaActual();
-                        const gananciasRef = doc(db, "ganancias", negocioId, "diario", hoy);
-                        await setDoc(gananciasRef, {
-                            total: increment(pedido.total?.baseTotal || 0)
-                        }, { merge: true });
-                        const historialRef = doc(db, "historialPedidos", negocioId, "ordenes", pedidoId);
-                        await setDoc(historialRef, pedido);
-                        await deleteDoc(pedidoRef);
-                        alert("✅ Pedido cobrado y archivado");
-                    } catch (error) {
-                        console.error("Error al cobrar:", error);
-                        alert("❌ Error al cobrar el pedido");
-                    }
-                });
-                div.appendChild(cobrarBtn);
-                document.getElementById("completadosContainer").appendChild(div);
-                break;
+    const info = document.createElement("p");
+    info.textContent = `📦 Pedido asignado a: ${nombreRepartidor}`;
+    div.appendChild(info);
+
+    // Cronómetro
+    const timerDisplay = document.createElement("p");
+    timerDisplay.style.fontWeight = "bold";
+    div.appendChild(timerDisplay);
+
+    let tiempoRestante = 40;
+    timerDisplay.textContent = `⏳ Tiempo para aceptar: ${tiempoRestante}s`;
+
+    if (asignadoTimers[pedidoId]) {
+        clearInterval(asignadoTimers[pedidoId]);
+    }
+
+    asignadoTimers[pedidoId] = setInterval(async () => {
+        tiempoRestante--;
+        timerDisplay.textContent = `⏳ Tiempo para aceptar: ${tiempoRestante}s`;
+
+        // Verificar si el pedido ya no está en estado asignado
+        const snapshot = await getDoc(pedidoRef);
+        const datosActuales = snapshot.data();
+        if (datosActuales.estado !== "asignado") {
+            clearInterval(asignadoTimers[pedidoId]);
+            delete asignadoTimers[pedidoId];
+            document.getElementById(pedidoDivId)?.remove();
+
+            // Ocultar sección si ya no hay pedidos
+            const contenedor = document.getElementById("pedidoAsignadoContainer");
+            if (contenedor && contenedor.children.length === 0) {
+                document.getElementById("pedidoAsignado").style.display = "none";
+            }
+
+            return;
         }
+
+        if (tiempoRestante <= 0) {
+            clearInterval(asignadoTimers[pedidoId]);
+            delete asignadoTimers[pedidoId];
+            try {
+                await updateDoc(pedidoRef, { estado: "buscandorepa" });
+                console.log(`⏱️ Pedido ${pedidoId} regresado a 'buscandorepa'`);
+            } catch (error) {
+                console.error("❌ Error al actualizar estado:", error);
+            }
+
+            document.getElementById(pedidoDivId)?.remove();
+
+            // Ocultar sección si ya no hay pedidos
+            const contenedor = document.getElementById("pedidoAsignadoContainer");
+            if (contenedor && contenedor.children.length === 0) {
+                document.getElementById("pedidoAsignado").style.display = "none";
+            }
+        }
+    }, 1000);
+
+    document.getElementById("pedidoAsignadoContainer").appendChild(div);
+    break;
+}
+
+
+
+
+    case "preparando": {
+        div.setAttribute("data-id", pedidoId);
+        const beep = document.getElementById("preparandoSonido");
+        if (beep) beep.play().catch(() => {});
+        const terminarBtn = document.createElement("button");
+        terminarBtn.textContent = "Marcar como Terminado";
+        terminarBtn.addEventListener("click", async () => {
+            await updateDoc(pedidoRef, { estado: "terminado" });
+        });
+        div.appendChild(terminarBtn);
+        document.getElementById("preparandoContainer").appendChild(div);
+        break;
+    }
+
+    case "terminado": {
+        const cobrarBtn = document.createElement("button");
+        cobrarBtn.textContent = "Cobrar";
+        cobrarBtn.addEventListener("click", async () => {
+            try {
+                const hoy = obtenerFechaActual();
+                const gananciasRef = doc(db, "ganancias", negocioId, "diario", hoy);
+                await setDoc(gananciasRef, {
+                    total: increment(pedido.total?.baseTotal || 0)
+                }, { merge: true });
+                const historialRef = doc(db, "historialPedidos", negocioId, "ordenes", pedidoId);
+                await setDoc(historialRef, pedido);
+                await deleteDoc(pedidoRef);
+                alert("✅ Pedido cobrado y archivado");
+            } catch (error) {
+                console.error("Error al cobrar:", error);
+                alert("❌ Error al cobrar el pedido");
+            }
+        });
+        div.appendChild(cobrarBtn);
+        document.getElementById("completadosContainer").appendChild(div);
+        break;
+    }
+}
+
     });
 });
 

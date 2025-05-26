@@ -17,16 +17,12 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #242424;
+
+  background: url('https://www.mentta.com/blog/wp-content/uploads/2017/12/compras-concepto-comercio-electronico-cartel-isometrico_1284-15256-626x300.jpg') no-repeat center center / cover;
   color: white;
   padding: 15px 25px;
   border-radius: 10px;
   margin-bottom: 30px;
-}
-
-#negocioNombre {
-  font-size: 1.3rem;
-  font-weight: bold;
 }
 
 #logoutBtn {
