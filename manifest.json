@@ -1,0 +1,20 @@
+{
+  "name": "panel negocios",
+  "short_name": "Panel",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ff5722",
+  "icons": [
+    {
+      "src": "/192x.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/512x.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

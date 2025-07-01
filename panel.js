@@ -311,3 +311,69 @@ async function solicitarPermisoYToken() {
 }
 
   
+
+
+// 10. MARCAR PLATILLO COMO AGOTADO/DISPONIBLE
+const platilloSelect = document.getElementById('platilloSelect');
+const estadoPlatillo = document.getElementById('estadoPlatillo');
+
+// 🟢 Crear las opciones del selector (platillo_1 a platillo_20)
+for (let i = 1; i <= 20; i++) {
+  const option = document.createElement('option');
+  option.value = `platillo_${i}`;
+  option.textContent = `Platillo ${i}`;
+  platilloSelect.appendChild(option);
+}
+
+platilloSelect.addEventListener('change', async () => {
+  const platilloId = platilloSelect.value;
+  if (!platilloId) {
+    estadoPlatillo.innerHTML = '';
+    return;
+  }
+
+  try {
+    const ref = doc(db, "businesses", negocioId, "menu", platilloId);
+    const snap = await getDoc(ref);
+
+    if (!snap.exists()) {
+      estadoPlatillo.innerHTML = `<p>❌ Platillo no encontrado en Firestore.</p>`;
+      return;
+    }
+
+    const data = snap.data();
+
+    estadoPlatillo.innerHTML = `
+      <p><strong>${data.name || platilloId}</strong></p>
+      <p>${data.description || ''}</p>
+      <label>
+        Disponible:
+        <input type="checkbox" id="toggleDisponible" ${data.disponible !== false ? 'checked' : ''}>
+      </label>
+      <button id="guardarEstadoBtn">Guardar</button>
+    `;
+
+    document.getElementById('guardarEstadoBtn').addEventListener('click', async () => {
+      const nuevoEstado = document.getElementById('toggleDisponible').checked;
+      try {
+        await updateDoc(ref, { disponible: nuevoEstado });
+        alert(`✅ Platillo actualizado a ${nuevoEstado ? 'disponible' : 'agotado'}`);
+      } catch (error) {
+        console.error(error);
+        alert('❌ Error al actualizar el platillo');
+      }
+    });
+
+  } catch (error) {
+    console.error(error);
+    estadoPlatillo.innerHTML = `<p>❌ Error al buscar el platillo.</p>`;
+  }
+});
+
+
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+    .then(reg => console.log('✅ SW registrado', reg))
+    .catch(err => console.error('❌ Error SW:', err));
+}
