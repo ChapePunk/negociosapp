@@ -13,7 +13,7 @@
 </head>
 <body>
     <header>
-        <h2>Bienvenido <span id="negocioNombre">a tu panel</span></h2>
+        <h2> <span id="negocioNombre">a tu panel</span></h2>
         <button id="logoutBtn">Cerrar Tienda</button>
         <section id="gananciasHoy" style="background: #d4edda; padding: 20px; border-radius: 10px; margin: 10px;">
             <h3>💸 Ventas</h3>
@@ -21,7 +21,11 @@
         </section>
         
     </header>
- 
+ <!-- Agrega esta sección donde prefieras, por ejemplo debajo del header -->
+<section id="repartidoresDisponibles" style="display: none; margin: 15px 0;">
+  <h3 style="margin-bottom: 10px; color: #6a3093;">🏍️ Repartidores Disponibles</h3>
+  <div id="listaRepartidores" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+</section>
 
 
  
@@ -58,7 +62,11 @@
         <div id="completadosContainer"></div>
     </section>
 </main>
-<section id="selectorPlatillos" style="margin: 20px; background: #eef; padding: 20px; border-radius: 10px;">
+<!-- Agrega este botón en tu header, debajo del botón de cerrar tienda -->
+<button id="togglePlatillosBtn" class="toggle-btn">🍽️ Administrar Platillos</button>
+
+<!-- Modifica la sección de platillos para incluir la clase oculto inicialmente -->
+<section id="selectorPlatillos" class="oculto" style="margin: 20px; background: #eef; padding: 20px; border-radius: 10px;">
   <h3>🍽️ Marcar Platillo como Agotado</h3>
   <label for="platilloSelect">Elegí un platillo:</label>
   <select id="platilloSelect">

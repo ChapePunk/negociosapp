@@ -18,7 +18,7 @@ header {
   justify-content: space-between;
   align-items: center;
 
-  background: url('https://www.mentta.com/blog/wp-content/uploads/2017/12/compras-concepto-comercio-electronico-cartel-isometrico_1284-15256-626x300.jpg') no-repeat center center / cover;
+  background: url('https://vleeko.net/wp-content/uploads/2018/04/ecommerce-Vleeko.gif') no-repeat center center / cover;
   color: white;
   padding: 15px 25px;
   border-radius: 10px;
@@ -146,4 +146,92 @@ header {
   font-weight: bold;
   font-size: 1.4rem;
   color: #0c5132;
+}
+
+/* Estilo para el botón toggle */
+.toggle-btn {
+  background-color: #6a3093;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 10px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggle-btn:hover {
+  background-color: #5a2d7e;
+  transform: translateY(-2px);
+}
+
+/* Clase para ocultar elementos */
+.oculto {
+  display: none;
+}
+
+/* Estilo para la sección de platillos (opcional) */
+#selectorPlatillos {
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Estilos para repartidores disponibles */
+.repartidor-disponible {
+  background-color: #e8f5e9;
+  border-left: 4px solid #4caf50;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+}
+
+.repartidor-disponible span {
+  font-weight: 500;
+}
+
+.emoji-moto {
+  font-size: 1.3rem;
+}
+/* Burbujas de repartidores */
+.repartidor-burbuja {
+  background-color: #e8f5e9;
+  border: 2px solid #4caf50;
+  border-radius: 20px;
+  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.repartidor-burbuja .emoji-moto {
+  font-size: 1rem;
+}
+
+.repartidor-burbuja .repartidor-nombre {
+  font-weight: 500;
+  color: #2e7d32;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Estado con punto indicador */
+.estado-indicador {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #4caf50;
+  margin-left: 5px;
 }

@@ -377,3 +377,80 @@ if ('serviceWorker' in navigator) {
     .then(reg => console.log('✅ SW registrado', reg))
     .catch(err => console.error('❌ Error SW:', err));
 }
+// Agrega esto al inicio de tu panel.js
+document.addEventListener('DOMContentLoaded', function() {
+  const toggleBtn = document.getElementById('togglePlatillosBtn');
+  const platillosSection = document.getElementById('selectorPlatillos');
+  
+  if (toggleBtn && platillosSection) {
+    toggleBtn.addEventListener('click', function() {
+      platillosSection.classList.toggle('oculto');
+      
+      // Cambiar el ícono/texto del botón según el estado
+      if (platillosSection.classList.contains('oculto')) {
+        toggleBtn.innerHTML = '🍽️ Administrar Platillos';
+      } else {
+        toggleBtn.innerHTML = '❌ Cerrar Administración';
+      }
+    });
+  }
+});
+
+// Función para monitorear repartidores disponibles
+// Función para monitorear repartidores disponibles
+function monitorRepartidoresDisponibles() {
+  const repartidoresRef = collection(db, "repartidores");
+  const listaRepartidores = document.getElementById("listaRepartidores");
+  const seccionRepartidores = document.getElementById("repartidoresDisponibles");
+
+  const unsubscribe = onSnapshot(
+    query(repartidoresRef, where("disponible", "==", true)), 
+    (snapshot) => {
+      listaRepartidores.innerHTML = '';
+      
+      if (snapshot.empty) {
+        seccionRepartidores.style.display = 'none';
+        return;
+      }
+      
+      seccionRepartidores.style.display = 'block';
+      
+      snapshot.forEach((doc) => {
+        const repartidor = doc.data();
+        const repartidorId = doc.id;
+        const nombre = repartidor.nombre || repartidorId.replace('_', ' ');
+        
+        const burbuja = document.createElement("div");
+        burbuja.className = "repartidor-burbuja";
+        burbuja.title = `Última conexión: ${repartidor.ultimaConexion ? 
+          new Date(repartidor.ultimaConexion.toDate()).toLocaleTimeString() : 'Recién'}`;
+        
+        burbuja.innerHTML = `
+          <span class="emoji-moto">🏍️</span>
+          <span class="repartidor-nombre">${nombre}</span>
+          <span class="estado-indicador"></span>
+        `;
+        
+        listaRepartidores.appendChild(burbuja);
+      });
+    }, 
+    (error) => {
+      console.error("Error escuchando repartidores:", error);
+      listaRepartidores.innerHTML = '<div style="color: #f44336;">Error cargando repartidores</div>';
+    }
+  );
+
+  return unsubscribe;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  // ... tu código existente ...
+  
+  // Iniciar el monitoreo de repartidores
+  const unsubscribeRepartidores = monitorRepartidoresDisponibles();
+  
+  // Opcional: Para dejar de escuchar cuando se cierre la sesión
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    unsubscribeRepartidores();
+  });
+});
